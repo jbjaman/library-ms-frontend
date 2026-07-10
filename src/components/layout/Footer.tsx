@@ -27,7 +27,7 @@ const Footer = () => {
           <p>Free Offer</p>
         </div>
 
-        <div className=" flex col-span-2  gap-4 items-center lg:text-lg text-md">
+        <div className=" flex max-md:col-span-2  gap-4 items-center lg:text-lg text-md">
           Join with us
           <div className="flex gap-2 items-center lg:text-lg text-md">
             <BsFacebook></BsFacebook>

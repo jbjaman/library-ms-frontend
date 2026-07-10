@@ -12,7 +12,7 @@ export default function Home() {
   const buttons = (
     <>
       <Link to="/all">
-        <button className="border-violet-500 border-2 rounded-lg m-3 p-3 hover:border-slate-300 text-xl hover:text-violet-500 ">
+        <button className="border-violet-500 border-2 rounded-lg m-3 p-3 hover:border-slate-300 lg:text-xl text-sm hover:text-violet-500 ">
           Read More
         </button>
       </Link>
@@ -37,12 +37,20 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative h-full py-2 rounded-lg max-md:hidden">
+      <div className="relative h-full py-2 rounded-lg ">
         <Swiper
-          slidesPerView={3}
+          slidesPerView={1.2}
           spaceBetween={5}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            768: {
+              slidesPerView: 2.2,
+            },
+            1024: {
+              slidesPerView: 3.2,
+            },
           }}
           modules={[Pagination]}
           className="mySwiper rounded-lg"
@@ -64,7 +72,7 @@ export default function Home() {
             <img src="https://i.ibb.co/F0L0Yzs/horor2.png" alt="" />
             <div className="flex items-center justify-between absolute bottom-0 left-0 bg-slate-900 bg-opacity-80 py-5 px-5 w-full text-slate-300">
               <div>
-                <p className=" font-semibold text-3xl">The Chalkman</p>
+                <p className=" font-semibold text-3xl">The Chalkm</p>
                 {ratings}
               </div>
               {buttons}
@@ -104,7 +112,7 @@ export default function Home() {
             <img src="https://i.ibb.co/QDBKQsy/fiction1.png" alt="" />
             <div className="flex items-center justify-between absolute bottom-0 left-0 bg-slate-900 bg-opacity-80 py-5 px-5 w-full  text-slate-300">
               <div>
-                <p className=" font-semibold text-3xl">Song of Achilles</p>
+                <p className=" font-semibold text-3xl">Song of A.</p>
                 {ratings}
               </div>
               {buttons}

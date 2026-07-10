@@ -24,7 +24,7 @@ const WebsiteDetails = () => {
           </button>
           {/* </Link> */}
         </div>
-        <div className="p-2 lg:p-4">
+        <div className="p-4 lg:p-5">
           <img
             className=" rounded-2xl"
             src="https://i.ibb.co/GtMS0x5/bg2.png"
