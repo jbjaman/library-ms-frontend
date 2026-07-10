@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 const Category = () => {
   return (
-    <div className="grid grid-cols-4 py-3 gap-3">
+    <div className="grid lg:grid-cols-4 py-3 gap-3">
       <div className="relative p-2 rounded-lg grid bg-teal-400 shadow-slate-400 shadow-md ">
         <img
           className="rounded-lg"

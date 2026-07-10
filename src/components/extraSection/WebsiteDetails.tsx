@@ -5,11 +5,11 @@
 const WebsiteDetails = () => {
   //   const { user } = useContext(Authcontxt);
   return (
-    <div className=" bg-gradient-to-r from-teal-600 to-teal-700 rounded-lg">
-      <div className="grid grid-cols-2">
-        <div className="text-center p-10">
+    <div className=" bg-linear-to-r from-teal-500 to-teal-700 rounded-lg">
+      <div className="grid lg:grid-cols-2">
+        <div className="text-center p-5">
           <h3 className="text-3xl font-bold text-slate-900">About Us</h3>
-          <p className="py-5 text-slate-100">
+          <p className="py-4  text-slate-100">
             Learning is a lifetime journey. Reading is the best way to pass time
             and what better way than to borrow/purchase books from our library
             and liberate your mind altogether.We provide a safe, comfortable and
@@ -24,9 +24,9 @@ const WebsiteDetails = () => {
           </button>
           {/* </Link> */}
         </div>
-        <div className="p-5">
+        <div className="p-2 lg:p-4">
           <img
-            className="rounded-3xl"
+            className=" rounded-2xl"
             src="https://i.ibb.co/GtMS0x5/bg2.png"
             alt=""
           />

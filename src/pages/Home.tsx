@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative h-full py-2 rounded-lg">
+      <div className="relative h-full py-2 rounded-lg max-md:hidden">
         <Swiper
           slidesPerView={3}
           spaceBetween={5}
