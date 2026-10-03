@@ -1,48 +1,17 @@
-import { BsFacebook, BsLinkedin, BsTwitterX, BsYoutube } from "react-icons/bs";
+import { FiBookOpen, FiFacebook, FiGithub, FiLinkedin } from "react-icons/fi";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <div>
-      <div className="text-sm text-slate-50 font-medium grid lg:grid-cols-5 grid-cols-3 bg-teal-500 lg:px-24 px-5 lg:py-8 py-3 gap-3">
+    <footer className="border-t border-[#e7eaf0] bg-white">
+      <div className="container grid gap-8 py-10 sm:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <p>About Us</p>
-          <p>Current Member</p>
-          <p>Annual Programs</p>
-          <p>Research</p>
+          <div className="flex items-center gap-3 mb-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-[#eef2ff] text-[#3157d5]"><FiBookOpen /></span><span className="font-extrabold">City Library</span></div>
+          <p className="max-w-sm text-sm leading-6 text-[#667085]">A clean workspace for managing your collection, tracking availability, and keeping borrowing records organized.</p>
         </div>
-        <div>
-          <p>Library</p>
-          <p>Recreation</p>
-          <p>Admin</p>
-        </div>
-        <div>
-          <p>Other Staff</p>
-          <p>Book Store</p>
-          <p>MemberShip</p>
-          <p>Careers</p>
-        </div>
-        <div>
-          <p>Desclaimer</p>
-          <p>Give Now</p>
-          <p>Free Offer</p>
-        </div>
-
-        <div className=" flex max-md:col-span-2  gap-4 items-center lg:text-lg text-md">
-          Join with us
-          <div className="flex gap-2 items-center lg:text-lg text-md">
-            <BsFacebook></BsFacebook>
-            <BsTwitterX></BsTwitterX>
-            <BsYoutube></BsYoutube>
-            <BsLinkedin></BsLinkedin>
-          </div>
-        </div>
+        <div><h3 className="text-sm font-bold mb-3">Library</h3><div className="space-y-2 text-sm text-[#667085]"><p>Book catalogue</p><p>New arrivals</p><p>Borrowing records</p></div></div>
+        <div><h3 className="text-sm font-bold mb-3">Connect</h3><div className="flex gap-2"><span className="grid h-9 w-9 place-items-center rounded-lg bg-[#f6f8fb] text-[#667085]"><FiFacebook /></span><span className="grid h-9 w-9 place-items-center rounded-lg bg-[#f6f8fb] text-[#667085]"><FiGithub /></span><span className="grid h-9 w-9 place-items-center rounded-lg bg-[#f6f8fb] text-[#667085]"><FiLinkedin /></span></div></div>
       </div>
-      <div className="p-2 font-medium flex justify-center text-sm items-center text-slate-900 bg-linear-to-r from-teal-300 to-slate-400 gap-2">
-        <img className="w-6" src="https://i.ibb.co/nPPf9RJ/logo-lm.png" />
-        <p>City Library © 2025-26</p>
-      </div>
-    </div>
+      <div className="border-t border-[#e7eaf0] py-4 text-center text-xs text-[#8a93a6]">City Library © 2025–26 · Built for a better reading workflow</div>
+    </footer>
   );
-};
-
-export default Footer;
+}

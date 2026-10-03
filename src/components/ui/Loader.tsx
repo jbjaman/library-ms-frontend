@@ -1,7 +1,1 @@
-export default function Loader() {
-  return (
-    <div className="flex justify-center items-center py-8">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
-    </div>
-  );
-}
+export default function Loader() { return <div className="flex min-h-[260px] items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-4 border-[#e6eaff] border-t-[#3157d5]" /></div>; }

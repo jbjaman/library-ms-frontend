@@ -1,109 +1,56 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { FiBookOpen, FiChevronDown, FiGrid, FiMenu, FiPlus, FiX } from "react-icons/fi";
+import { Link, NavLink } from "react-router";
+
+const navItems = [
+  { to: "/", label: "Dashboard", icon: FiGrid },
+  { to: "/books", label: "Books", icon: FiBookOpen },
+  { to: "/borrow-summary", label: "Borrowing", icon: FiChevronDown },
+];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [open, setOpen] = useState(false);
   return (
-    <nav className="bg-gradient-to-r from-teal-600 to-teal-700 shadow-lg">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link
-            to="/"
-            className="text-xl font-bold text-white hover:text-blue-100 transition-colors"
-          >
-            Minimal LMS
-          </Link>
+    <header className="sticky top-0 z-40 border-b border-[#e7eaf0]/90 bg-white/90 backdrop-blur-xl">
+      <div className="container h-[72px] flex items-center justify-between gap-6">
+        <Link to="/" className="flex items-center gap-3 shrink-0" onClick={() => setOpen(false)}>
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#3157d5] text-white shadow-lg shadow-[#3157d5]/20">
+            <FiBookOpen size={20} />
+          </span>
+          <span>
+            <span className="block text-[15px] font-extrabold tracking-tight">City Library</span>
+            <span className="block text-[11px] text-[#8a93a6]">Library management</span>
+          </span>
+        </Link>
 
-          <div className="hidden md:flex space-x-6">
-            <Link
-              to="/books"
-              className="text-white hover:border px-4 py-2 rounded-md text-sm font-medium transition-colors border-b"
-            >
-              Books
-            </Link>
-            <Link
-              to="/create-book"
-              className="text-white hover:border px-4 py-2 rounded-md text-sm font-medium transition-colors border-b"
-            >
-              Add Book
-            </Link>
-            <Link
-              to="/borrow-summary"
-              className="text-white hover:border px-4 py-2 rounded-md text-sm font-medium transition-colors border-b"
-            >
-              Borrow Summary
-            </Link>
-          </div>
+        <nav className="hidden md:flex items-center gap-1 rounded-full bg-[#f6f8fb] p-1">
+          {navItems.map(({ to, label, icon: Icon }) => (
+            <NavLink key={to} to={to} className={({ isActive }) => `flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${isActive ? "bg-white text-[#3157d5] shadow-sm" : "text-[#667085] hover:text-[#172033]"}`}>
+              <Icon size={15} /> {label}
+            </NavLink>
+          ))}
+        </nav>
 
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-blue-100 focus:outline-none transition-colors"
-              aria-expanded={isOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
+        <Link to="/create-book" className="hidden sm:flex items-center gap-2 rounded-xl bg-[#3157d5] px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#3157d5]/20 hover:bg-[#2645ae] transition">
+          <FiPlus /> Add book
+        </Link>
+        <button className="md:hidden rounded-xl border border-[#e7eaf0] p-2.5 text-[#172033]" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+          {open ? <FiX size={20} /> : <FiMenu size={20} />}
+        </button>
       </div>
 
-      <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-teal-700">
-          <Link
-            to="/books"
-            className="text-white hover:bg-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors border-r"
-            onClick={() => setIsOpen(false)}
-          >
-            Books
-          </Link>
-          <Link
-            to="/create-book"
-            className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors border-r"
-            onClick={() => setIsOpen(false)}
-          >
-            Add Book
-          </Link>
-          <Link
-            to="/borrow-summary"
-            className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors border-r"
-            onClick={() => setIsOpen(false)}
-          >
-            Borrow Summary
-          </Link>
+      {open && (
+        <div className="md:hidden border-t border-[#e7eaf0] bg-white px-4 py-3">
+          <div className="container !w-full flex flex-col gap-1">
+            {navItems.map(({ to, label, icon: Icon }) => (
+              <NavLink key={to} to={to} onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold ${isActive ? "bg-[#eef2ff] text-[#3157d5]" : "text-[#667085]"}`}>
+                <Icon size={17} /> {label}
+              </NavLink>
+            ))}
+            <Link to="/create-book" onClick={() => setOpen(false)} className="mt-1 flex items-center justify-center gap-2 rounded-xl bg-[#3157d5] px-4 py-3 text-sm font-bold text-white"><FiPlus /> Add book</Link>
+          </div>
         </div>
-      </div>
-    </nav>
+      )}
+    </header>
   );
 }

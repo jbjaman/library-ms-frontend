@@ -1,57 +1,6 @@
+import { FiArrowLeft, FiBookOpen, FiEdit2, FiHash, FiUser } from "react-icons/fi";
 import { Link, useParams } from "react-router";
 import { useGetBookQuery } from "../api/bookApi";
 import Loader from "../components/ui/Loader";
-
-export default function BookDetail() {
-  const { id } = useParams<{ id: string }>();
-  const { data: response, isLoading, isError } = useGetBookQuery(id || "");
-
-  console.log(response);
-
-  if (isLoading) return <Loader />;
-  if (isError || !response?.data) return <div>Error loading book</div>;
-
-  const book = response.data;
-
-  return (
-    <div className="max-w-2xl mx-auto my-3 border border-teal-400 rounded-md">
-      <div className="bg-white shadow rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-2">{book.title}</h1>
-        <p className="text-gray-600 mb-1">by {book.author}</p>
-        <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mb-4">
-          {book.genre}
-        </span>
-
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <h3 className="font-semibold">ISBN</h3>
-            <p>{book.isbn}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold">Availability</h3>
-            <p>{book.available ? "Available" : "Not Available"}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold">Copies</h3>
-            <p>{book.copies}</p>
-          </div>
-        </div>
-
-        {book.description && (
-          <div className="mb-6">
-            <h3 className="font-semibold">Description</h3>
-            <p className="text-gray-700">{book.description}</p>
-          </div>
-        )}
-
-        <div className="flex space-x-3">
-          <Link to="/books" className="ml-auto">
-            <button className="border-2 px-4 w-full py-2 rounded-xl bg-teal-600 text-white font-bold">
-              Back to List
-            </button>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
+export default function BookDetail(){const {id}=useParams<{id:string}>();const {data:response,isLoading,isError}=useGetBookQuery(id||"");if(isLoading)return <Loader/>;if(isError||!response?.data)return <div className="page-shell"><div className="surface p-8 text-center text-[#c73737]">Unable to load this book.</div></div>;const b=response.data;return <div className="page-shell"><Link to="/books" className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-[#667085] hover:text-[#3157d5]"><FiArrowLeft/> Back to catalogue</Link><div className="grid overflow-hidden rounded-[26px] border border-[#e7eaf0] bg-white shadow-[0_18px_50px_rgba(20,32,56,.06)] lg:grid-cols-[.7fr_1.3fr]"><div className="flex min-h-[360px] items-center justify-center bg-[#172554] p-10"><div className="relative grid h-64 w-48 place-items-center rounded-r-2xl rounded-l-md bg-gradient-to-br from-[#6b83e8] to-[#263e9f] p-6 text-center text-white shadow-2xl"><FiBookOpen size={54} className="opacity-90"/><p className="mt-5 line-clamp-3 text-xl font-black">{b.title}</p><p className="mt-2 text-xs text-white/70">{b.author}</p></div></div><div className="p-7 sm:p-10"><span className="rounded-full bg-[#eef2ff] px-3 py-1.5 text-xs font-extrabold text-[#3157d5]">{b.genre.replaceAll("_"," ")}</span><h1 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">{b.title}</h1><p className="mt-2 flex items-center gap-2 text-[#667085]"><FiUser/> {b.author}</p><div className="mt-7 grid gap-3 sm:grid-cols-3"><Info icon={FiHash} label="ISBN" value={b.isbn}/><Info icon={FiBookOpen} label="Copies" value={String(b.copies)}/><Info icon={FiBookOpen} label="Status" value={b.available?"Available":"Unavailable"}/></div>{b.description&&<div className="mt-8 border-t border-[#e7eaf0] pt-7"><h2 className="text-sm font-extrabold uppercase tracking-wider text-[#8a93a6]">Description</h2><p className="mt-3 text-sm leading-7 text-[#667085]">{b.description}</p></div>}<div className="mt-8 flex flex-wrap gap-2"><Link to={`/edit-book/${b._id}`} className="inline-flex items-center gap-2 rounded-xl border border-[#dfe3eb] px-4 py-2.5 text-sm font-bold"><FiEdit2/> Edit book</Link>{b.available&&<Link to={`/borrow/${b._id}`} className="inline-flex items-center gap-2 rounded-xl bg-[#3157d5] px-4 py-2.5 text-sm font-bold text-white"><FiBookOpen/> Borrow</Link>}</div></div></div></div>}
+function Info({icon:Icon,label,value}:{icon:typeof FiBookOpen;label:string;value:string}){return <div className="rounded-2xl bg-[#f7f8fc] p-4"><Icon className="text-[#3157d5]"/><p className="mt-3 text-[11px] font-bold uppercase tracking-wider text-[#8a93a6]">{label}</p><p className="mt-1 break-all text-sm font-extrabold">{value}</p></div>}

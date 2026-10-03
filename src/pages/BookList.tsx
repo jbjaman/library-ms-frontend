@@ -1,77 +1,11 @@
 import { useState } from "react";
+import { FiFilter, FiPlus, FiSearch } from "react-icons/fi";
+import { Link } from "react-router";
 import { useDeleteBookMutation, useGetBooksQuery } from "../api/bookApi";
 import BookTable from "../components/books/BookTable";
 import ConfirmationDialog from "../components/ui/ConfirmationDialog";
-
+import Loader from "../components/ui/Loader";
 import Toast from "../components/ui/Toast";
 import { useToast } from "../hooks/useToast";
-
-export default function BookList() {
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState("");
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const {
-    data: response,
-    isLoading,
-    isError,
-  } = useGetBooksQuery({ page, filter });
-  const [deleteBook] = useDeleteBookMutation();
-  const { toast, showToast, hideToast } = useToast();
-
-  const handleDelete = async () => {
-    if (!deleteId) return;
-
-    try {
-      await deleteBook(deleteId).unwrap();
-      showToast("Book deleted successfully", "success");
-    } catch (error) {
-      showToast("Failed to delete book", "error");
-      console.log(error);
-    } finally {
-      setDeleteId(null);
-    }
-  };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading books</div>;
-
-  const { data: books = [] } = response || {};
-
-  return (
-    <div className="">
-      {toast && (
-        <Toast message={toast.message} type={toast.type} onClose={hideToast} />
-      )}
-
-      <div className="flex justify-between items-center mt-3">
-        <h1 className="text-2xl font-bold">Book List</h1>
-        <select
-          value={filter}
-          onChange={(e) => {
-            setFilter(e.target.value);
-            setPage(1);
-          }}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="">All Genres</option>
-          <option value="FICTION">Fiction</option>
-          <option value="NON_FICTION">Non-Fiction</option>
-          <option value="SCIENCE">Science</option>
-          <option value="HISTORY">History</option>
-          <option value="BIOGRAPHY">Biography</option>
-          <option value="FANTASY">Fantasy</option>
-        </select>
-      </div>
-
-      <BookTable books={books} onDelete={setDeleteId} />
-
-      <ConfirmationDialog
-        isOpen={!!deleteId}
-        onClose={() => setDeleteId(null)}
-        onConfirm={handleDelete}
-        title="Delete Book"
-        message="Are you sure you want to delete this book?"
-      />
-    </div>
-  );
-}
+const genres=["","FICTION","NON_FICTION","SCIENCE","HISTORY","BIOGRAPHY","FANTASY"];
+export default function BookList(){const [page,setPage]=useState(1);const [filter,setFilter]=useState("");const [deleteId,setDeleteId]=useState<string|null>(null);const {data:response,isLoading,isError}=useGetBooksQuery({page,filter});const [deleteBook]=useDeleteBookMutation();const {toast,showToast,hideToast}=useToast();if(isLoading)return <Loader/>;if(isError)return <div className="page-shell"><div className="surface p-8 text-center text-[#c73737]">Unable to load the catalogue.</div></div>;const books=response?.data||[];return <div className="page-shell">{toast&&<Toast {...toast} onClose={hideToast}/>}<div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-[#3157d5]">Catalogue</p><h1 className="mt-1 text-3xl font-black tracking-tight">Your books</h1><p className="mt-1 text-sm text-[#667085]">Browse, update and manage every title in your collection.</p></div><Link to="/create-book" className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#3157d5] px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#3157d5]/20"><FiPlus/> Add book</Link></div><div className="surface mb-5 p-3"><div className="flex flex-col gap-3 md:flex-row"><div className="relative flex-1"><FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#98a2b3]"/><input className="field pl-10" placeholder="Search is handled by the server filter" disabled/></div><div className="relative md:w-60"><FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-[#98a2b3]"/><select value={filter} onChange={e=>{setFilter(e.target.value);setPage(1)}} className="field pl-10"><option value="">All genres</option>{genres.slice(1).map(g=><option key={g}>{g.replaceAll("_"," ")}</option>)}</select></div></div></div><BookTable books={books} onDelete={setDeleteId}/><ConfirmationDialog isOpen={!!deleteId} onClose={()=>setDeleteId(null)} onConfirm={async()=>{if(!deleteId)return;try{await deleteBook(deleteId).unwrap();showToast("Book deleted successfully","success")}catch{showToast("Failed to delete book","error")}finally{setDeleteId(null)}}} title="Delete this book?" message="This will permanently remove the book from your catalogue. This action cannot be undone."/></div>}
