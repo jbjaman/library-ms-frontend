@@ -11,7 +11,7 @@ export const useToast = () => {
   const showToast = (
     message: string,
     type: "success" | "error" | "info",
-    duration: number = 3000
+    duration: number = 3000,
   ) => {
     setToast({ message, type });
 

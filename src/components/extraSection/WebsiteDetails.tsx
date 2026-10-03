@@ -1,1 +1,27 @@
-export default function WebsiteDetails(){return <section className="surface overflow-hidden"><div className="grid lg:grid-cols-[1fr_.9fr]"><div className="p-7 sm:p-10"><p className="text-xs font-extrabold uppercase tracking-[.18em] text-[#3157d5]">About the library</p><h2 className="mt-2 text-2xl font-black">Designed around the way people actually read.</h2><p className="mt-4 text-sm leading-7 text-[#667085]">A library should make discovery feel simple. This workspace keeps catalogue management, availability and borrowing records close at hand so your collection stays useful instead of becoming another spreadsheet.</p></div><img src="https://i.ibb.co/GtMS0x5/bg2.png" alt="Library" className="h-full min-h-56 w-full object-cover"/></div></section>}
+export default function WebsiteDetails() {
+  return (
+    <section className="surface overflow-hidden">
+      <div className="grid lg:grid-cols-[1fr_.9fr]">
+        <div className="p-7 sm:p-10">
+          <p className="text-xs font-extrabold uppercase tracking-[.18em] text-[#3157d5]">
+            About the library
+          </p>
+          <h2 className="mt-2 text-2xl font-black">
+            Designed around the way people actually read.
+          </h2>
+          <p className="mt-4 text-sm leading-7 text-[#667085]">
+            A library should make discovery feel simple. This workspace keeps
+            catalogue management, availability and borrowing records close at
+            hand so your collection stays useful instead of becoming another
+            spreadsheet.
+          </p>
+        </div>
+        <img
+          src="https://i.ibb.co/GtMS0x5/bg2.png"
+          alt="Library"
+          className="h-full min-h-56 w-full object-cover"
+        />
+      </div>
+    </section>
+  );
+}

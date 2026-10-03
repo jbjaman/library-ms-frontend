@@ -1,2 +1,39 @@
-type Props={currentPage:number;totalPages:number;onPageChange:(page:number)=>void};
-export default function Pagination({currentPage,totalPages,onPageChange}:Props){if(totalPages<=1)return null;return <div className="mt-6 flex justify-center gap-1.5"><button disabled={currentPage===1} onClick={()=>onPageChange(currentPage-1)} className="rounded-xl border border-[#dfe3eb] px-3 py-2 text-sm disabled:opacity-40">Prev</button>{Array.from({length:totalPages},(_,i)=>i+1).map(n=><button key={n} onClick={()=>onPageChange(n)} className={`h-9 min-w-9 rounded-xl px-2 text-sm font-bold ${n===currentPage?"bg-[#3157d5] text-white":"border border-[#dfe3eb] bg-white text-[#667085]"}`}>{n}</button>)}<button disabled={currentPage===totalPages} onClick={()=>onPageChange(currentPage+1)} className="rounded-xl border border-[#dfe3eb] px-3 py-2 text-sm disabled:opacity-40">Next</button></div>}
+type Props = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: Props) {
+  if (totalPages <= 1) return null;
+  return (
+    <div className="mt-6 flex justify-center gap-1.5">
+      <button
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+        className="rounded-xl border border-[#dfe3eb] px-3 py-2 text-sm disabled:opacity-40"
+      >
+        Prev
+      </button>
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+        <button
+          key={n}
+          onClick={() => onPageChange(n)}
+          className={`h-9 min-w-9 rounded-xl px-2 text-sm font-bold ${n === currentPage ? "bg-[#3157d5] text-white" : "border border-[#dfe3eb] bg-white text-[#667085]"}`}
+        >
+          {n}
+        </button>
+      ))}
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+        className="rounded-xl border border-[#dfe3eb] px-3 py-2 text-sm disabled:opacity-40"
+      >
+        Next
+      </button>
+    </div>
+  );
+}

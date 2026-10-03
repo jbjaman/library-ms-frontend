@@ -2,6 +2,175 @@ import { FiBookOpen, FiEdit2, FiEye, FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router";
 import type { IBook } from "../../types/types";
 import Button from "../ui/Button";
-interface Props{books:IBook[];onDelete?:(id:string)=>void}
-const genre=(g:string)=>g.replaceAll("_"," ").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
-export default function BookTable({books,onDelete}:Props){if(!books.length)return <div className="surface grid min-h-56 place-items-center p-8 text-center"><div><FiBookOpen className="mx-auto text-[#98a2b3]" size={32}/><h3 className="mt-3 font-extrabold">No books found</h3><p className="mt-1 text-sm text-[#667085]">Try another genre or add your first book.</p></div></div>;return <div className="surface overflow-hidden"><div className="hidden overflow-x-auto md:block"><table className="min-w-full"><thead><tr className="border-b border-[#e7eaf0] bg-[#fafbfc] text-left text-xs uppercase tracking-wide text-[#8a93a6]"><th className="px-5 py-4">Book</th><th className="px-4 py-4">Genre</th><th className="px-4 py-4">ISBN</th><th className="px-4 py-4">Copies</th><th className="px-4 py-4">Status</th><th className="px-5 py-4 text-right">Actions</th></tr></thead><tbody>{books.map(b=><tr key={b._id} className="border-b border-[#eef0f4] last:border-0 hover:bg-[#fbfcff]"><td className="px-5 py-4"><div className="flex items-center gap-3"><div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#eef2ff] text-[#3157d5]"><FiBookOpen/></div><div><Link to={`/books/${b._id}`} className="font-extrabold hover:text-[#3157d5]">{b.title}</Link><p className="mt-0.5 text-xs text-[#8a93a6]">by {b.author}</p></div></div></td><td className="px-4 py-4"><span className="rounded-full bg-[#f2f4f7] px-2.5 py-1 text-xs font-bold text-[#667085]">{genre(b.genre)}</span></td><td className="px-4 py-4 text-sm text-[#667085]">{b.isbn}</td><td className="px-4 py-4 text-sm font-bold">{b.copies}</td><td className="px-4 py-4"><span className={`inline-flex items-center gap-1.5 text-xs font-bold ${b.available?"text-[#087f5b]":"text-[#c73737]"}`}><span className={`h-2 w-2 rounded-full ${b.available?"bg-[#12b76a]":"bg-[#f04438]"}`}/>{b.available?"Available":"Unavailable"}</span></td><td className="px-5 py-4"><div className="flex justify-end gap-1.5"><Link to={`/books/${b._id}`}><Button size="sm" variant="secondary"><FiEye/></Button></Link><Link to={`/edit-book/${b._id}`}><Button size="sm" variant="secondary"><FiEdit2/></Button></Link>{b.available&&<Link to={`/borrow/${b._id}`}><Button size="sm" variant="success">Borrow</Button></Link>}{onDelete&&<Button size="sm" variant="danger" onClick={()=>onDelete(b._id)}><FiTrash2/></Button>}</div></td></tr>)}</tbody></table></div><div className="divide-y divide-[#eef0f4] md:hidden">{books.map(b=><div key={b._id} className="p-4"><div className="flex gap-3"><div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#eef2ff] text-[#3157d5]"><FiBookOpen/></div><div className="min-w-0 flex-1"><Link to={`/books/${b._id}`} className="font-extrabold">{b.title}</Link><p className="text-xs text-[#8a93a6]">{b.author} · {genre(b.genre)}</p><div className="mt-2 flex items-center justify-between text-xs"><span>ISBN {b.isbn}</span><span className={b.available?"text-[#087f5b]":"text-[#c73737]"}>{b.available?"Available":"Unavailable"}</span></div></div></div><div className="mt-3 flex flex-wrap gap-2"><Link to={`/books/${b._id}`}><Button size="sm" variant="secondary">View</Button></Link><Link to={`/edit-book/${b._id}`}><Button size="sm" variant="secondary">Edit</Button></Link>{b.available&&<Link to={`/borrow/${b._id}`}><Button size="sm" variant="success">Borrow</Button></Link>}{onDelete&&<Button size="sm" variant="danger" onClick={()=>onDelete(b._id)}>Delete</Button>}</div></div>)}</div></div>}
+interface Props {
+  books: IBook[];
+  onDelete?: (id: string) => void;
+}
+const genre = (g: string) =>
+  g
+    .replaceAll("_", " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+export default function BookTable({ books, onDelete }: Props) {
+  if (!books.length)
+    return (
+      <div className="surface grid min-h-56 place-items-center p-8 text-center">
+        <div>
+          <FiBookOpen className="mx-auto text-[#98a2b3]" size={32} />
+          <h3 className="mt-3 font-extrabold">No books found</h3>
+          <p className="mt-1 text-sm text-[#667085]">
+            Try another genre or add your first book.
+          </p>
+        </div>
+      </div>
+    );
+  return (
+    <div className="surface overflow-hidden">
+      <div className="hidden overflow-x-auto md:block">
+        <table className="min-w-full">
+          <thead>
+            <tr className="border-b border-[#e7eaf0] bg-[#fafbfc] text-left text-xs uppercase tracking-wide text-[#8a93a6]">
+              <th className="px-5 py-4">Book</th>
+              <th className="px-4 py-4">Genre</th>
+              <th className="px-4 py-4">ISBN</th>
+              <th className="px-4 py-4">Copies</th>
+              <th className="px-4 py-4">Status</th>
+              <th className="px-5 py-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {books.map((b) => (
+              <tr
+                key={b._id}
+                className="border-b border-[#eef0f4] last:border-0 hover:bg-[#fbfcff]"
+              >
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#eef2ff] text-[#3157d5]">
+                      <FiBookOpen />
+                    </div>
+                    <div>
+                      <Link
+                        to={`/books/${b._id}`}
+                        className="font-extrabold hover:text-[#3157d5]"
+                      >
+                        {b.title}
+                      </Link>
+                      <p className="mt-0.5 text-xs text-[#8a93a6]">
+                        by {b.author}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-4 py-4">
+                  <span className="rounded-full bg-[#f2f4f7] px-2.5 py-1 text-xs font-bold text-[#667085]">
+                    {genre(b.genre)}
+                  </span>
+                </td>
+                <td className="px-4 py-4 text-sm text-[#667085]">{b.isbn}</td>
+                <td className="px-4 py-4 text-sm font-bold">{b.copies}</td>
+                <td className="px-4 py-4">
+                  <span
+                    className={`inline-flex items-center gap-1.5 text-xs font-bold ${b.available ? "text-[#087f5b]" : "text-[#c73737]"}`}
+                  >
+                    <span
+                      className={`h-2 w-2 rounded-full ${b.available ? "bg-[#12b76a]" : "bg-[#f04438]"}`}
+                    />
+                    {b.available ? "Available" : "Unavailable"}
+                  </span>
+                </td>
+                <td className="px-5 py-4">
+                  <div className="flex justify-end gap-1.5">
+                    <Link to={`/books/${b._id}`}>
+                      <Button size="sm" variant="secondary">
+                        <FiEye />
+                      </Button>
+                    </Link>
+                    <Link to={`/edit-book/${b._id}`}>
+                      <Button size="sm" variant="secondary">
+                        <FiEdit2 />
+                      </Button>
+                    </Link>
+                    {b.available && (
+                      <Link to={`/borrow/${b._id}`}>
+                        <Button size="sm" variant="success">
+                          Borrow
+                        </Button>
+                      </Link>
+                    )}
+                    {onDelete && (
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => onDelete(b._id)}
+                      >
+                        <FiTrash2 />
+                      </Button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="divide-y divide-[#eef0f4] md:hidden">
+        {books.map((b) => (
+          <div key={b._id} className="p-4">
+            <div className="flex gap-3">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#eef2ff] text-[#3157d5]">
+                <FiBookOpen />
+              </div>
+              <div className="min-w-0 flex-1">
+                <Link to={`/books/${b._id}`} className="font-extrabold">
+                  {b.title}
+                </Link>
+                <p className="text-xs text-[#8a93a6]">
+                  {b.author} · {genre(b.genre)}
+                </p>
+                <div className="mt-2 flex items-center justify-between text-xs">
+                  <span>ISBN {b.isbn}</span>
+                  <span
+                    className={
+                      b.available ? "text-[#087f5b]" : "text-[#c73737]"
+                    }
+                  >
+                    {b.available ? "Available" : "Unavailable"}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link to={`/books/${b._id}`}>
+                <Button size="sm" variant="secondary">
+                  View
+                </Button>
+              </Link>
+              <Link to={`/edit-book/${b._id}`}>
+                <Button size="sm" variant="secondary">
+                  Edit
+                </Button>
+              </Link>
+              {b.available && (
+                <Link to={`/borrow/${b._id}`}>
+                  <Button size="sm" variant="success">
+                    Borrow
+                  </Button>
+                </Link>
+              )}
+              {onDelete && (
+                <Button
+                  size="sm"
+                  variant="danger"
+                  onClick={() => onDelete(b._id)}
+                >
+                  Delete
+                </Button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

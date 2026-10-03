@@ -9,9 +9,13 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#f6f8fb] text-[#172033]">
       <Navbar />
-      <main className="grow"><Outlet /></main>
+      <main className="grow">
+        <Outlet />
+      </main>
       <Footer />
-      {toast && <Toast message={toast.message} type={toast.type} onClose={hideToast} />}
+      {toast && (
+        <Toast message={toast.message} type={toast.type} onClose={hideToast} />
+      )}
     </div>
   );
 }

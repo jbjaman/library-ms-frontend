@@ -1,9 +1,124 @@
 import { useState } from "react";
-import { FiArrowLeft,FiBookOpen,FiCalendar,FiMinus,FiPlus } from "react-icons/fi";
-import { Link,useNavigate,useParams } from "react-router";
+import {
+  FiArrowLeft,
+  FiBookOpen,
+  FiCalendar,
+  FiMinus,
+  FiPlus,
+} from "react-icons/fi";
+import { Link, useNavigate, useParams } from "react-router";
 import { useGetBookQuery } from "../api/bookApi";
 import { useBorrowBookMutation } from "../api/borrowApi";
 import Loader from "../components/ui/Loader";
 import Toast from "../components/ui/Toast";
 import { useToast } from "../hooks/useToast";
-export default function BorrowBook(){const {bookId}=useParams<{bookId:string}>();const navigate=useNavigate();const {data:book,isLoading,isError}=useGetBookQuery(bookId||"");const [borrow]=useBorrowBookMutation();const [quantity,setQuantity]=useState(1);const [dueDate,setDueDate]=useState("");const {toast,showToast,hideToast}=useToast();if(isLoading)return <Loader/>;if(isError||!book)return <div className="page-shell"><div className="surface p-8 text-center text-[#c73737]">Unable to load this book.</div></div>;const max=book.data.copies;const submit=async(e:React.FormEvent)=>{e.preventDefault();if(!bookId||!dueDate)return;try{await borrow({book:bookId,quantity,dueDate:new Date(dueDate).toISOString()}).unwrap();showToast("Book borrowed successfully","success");navigate("/borrow-summary")}catch{showToast("Failed to borrow book","error")}};return <div className="page-shell max-w-3xl"><Link to={`/books/${bookId}`} className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-[#667085]"><FiArrowLeft/> Back to book</Link><div className="grid overflow-hidden rounded-[26px] border border-[#e7eaf0] bg-white shadow-sm md:grid-cols-[.8fr_1.2fr]"><div className="bg-[#172554] p-8 text-white"><div className="grid h-40 w-28 place-items-center rounded-r-xl bg-[#4b63ca] shadow-xl"><FiBookOpen size={34}/></div><p className="mt-7 text-xs font-bold uppercase tracking-widest text-[#aebbf4]">Borrowing</p><h1 className="mt-2 text-2xl font-black">{book.data.title}</h1><p className="mt-2 text-sm text-[#c7d2fe]">{book.data.author}</p></div><form onSubmit={submit} className="p-7 sm:p-9"><h2 className="text-xl font-black">Borrow details</h2><p className="mt-1 text-sm text-[#667085]">Choose how many copies and when they should be returned.</p><div className="mt-7 rounded-2xl bg-[#f7f8fc] p-4"><p className="text-xs font-bold uppercase tracking-wider text-[#8a93a6]">Available copies</p><p className="mt-1 text-2xl font-black text-[#087f5b]">{max}</p></div><label className="mt-5 block"><span className="mb-2 block text-sm font-bold">Quantity</span><div className="flex items-center rounded-xl border border-[#dfe3eb] p-1"><button type="button" disabled={quantity<=1} onClick={()=>setQuantity(q=>Math.max(1,q-1))} className="grid h-10 w-10 place-items-center rounded-lg bg-[#f7f8fc] disabled:opacity-40"><FiMinus/></button><span className="flex-1 text-center font-black">{quantity}</span><button type="button" disabled={quantity>=max} onClick={()=>setQuantity(q=>Math.min(max,q+1))} className="grid h-10 w-10 place-items-center rounded-lg bg-[#f7f8fc] disabled:opacity-40"><FiPlus/></button></div></label><label className="mt-5 block"><span className="mb-2 flex items-center gap-2 text-sm font-bold"><FiCalendar/> Due date</span><input required type="date" min={new Date().toISOString().split("T")[0]} value={dueDate} onChange={e=>setDueDate(e.target.value)} className="field"/></label><button type="submit" className="mt-7 w-full rounded-xl bg-[#3157d5] px-4 py-3 text-sm font-extrabold text-white hover:bg-[#2645ae]">Confirm borrow</button></form></div>{toast&&<Toast {...toast} onClose={hideToast}/>}</div>}
+export default function BorrowBook() {
+  const { bookId } = useParams<{ bookId: string }>();
+  const navigate = useNavigate();
+  const { data: book, isLoading, isError } = useGetBookQuery(bookId || "");
+  const [borrow] = useBorrowBookMutation();
+  const [quantity, setQuantity] = useState(1);
+  const [dueDate, setDueDate] = useState("");
+  const { toast, showToast, hideToast } = useToast();
+  if (isLoading) return <Loader />;
+  if (isError || !book)
+    return (
+      <div className="page-shell">
+        <div className="surface p-8 text-center text-[#c73737]">
+          Unable to load this book.
+        </div>
+      </div>
+    );
+  const max = book.data.copies;
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!bookId || !dueDate) return;
+    try {
+      await borrow({
+        book: bookId,
+        quantity,
+        dueDate: new Date(dueDate).toISOString(),
+      }).unwrap();
+      showToast("Book borrowed successfully", "success");
+      navigate("/borrow-summary");
+    } catch {
+      showToast("Failed to borrow book", "error");
+    }
+  };
+  return (
+    <div className="page-shell max-w-3xl">
+      <Link
+        to={`/books/${bookId}`}
+        className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-[#667085]"
+      >
+        <FiArrowLeft /> Back to book
+      </Link>
+      <div className="grid overflow-hidden rounded-[26px] border border-[#e7eaf0] bg-white shadow-sm md:grid-cols-[.8fr_1.2fr]">
+        <div className="bg-[#172554] p-8 text-white">
+          <div className="grid h-40 w-28 place-items-center rounded-r-xl bg-[#4b63ca] shadow-xl">
+            <FiBookOpen size={34} />
+          </div>
+          <p className="mt-7 text-xs font-bold uppercase tracking-widest text-[#aebbf4]">
+            Borrowing
+          </p>
+          <h1 className="mt-2 text-2xl font-black">{book.data.title}</h1>
+          <p className="mt-2 text-sm text-[#c7d2fe]">{book.data.author}</p>
+        </div>
+        <form onSubmit={submit} className="p-7 sm:p-9">
+          <h2 className="text-xl font-black">Borrow details</h2>
+          <p className="mt-1 text-sm text-[#667085]">
+            Choose how many copies and when they should be returned.
+          </p>
+          <div className="mt-7 rounded-2xl bg-[#f7f8fc] p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#8a93a6]">
+              Available copies
+            </p>
+            <p className="mt-1 text-2xl font-black text-[#087f5b]">{max}</p>
+          </div>
+          <label className="mt-5 block">
+            <span className="mb-2 block text-sm font-bold">Quantity</span>
+            <div className="flex items-center rounded-xl border border-[#dfe3eb] p-1">
+              <button
+                type="button"
+                disabled={quantity <= 1}
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="grid h-10 w-10 place-items-center rounded-lg bg-[#f7f8fc] disabled:opacity-40"
+              >
+                <FiMinus />
+              </button>
+              <span className="flex-1 text-center font-black">{quantity}</span>
+              <button
+                type="button"
+                disabled={quantity >= max}
+                onClick={() => setQuantity((q) => Math.min(max, q + 1))}
+                className="grid h-10 w-10 place-items-center rounded-lg bg-[#f7f8fc] disabled:opacity-40"
+              >
+                <FiPlus />
+              </button>
+            </div>
+          </label>
+          <label className="mt-5 block">
+            <span className="mb-2 flex items-center gap-2 text-sm font-bold">
+              <FiCalendar /> Due date
+            </span>
+            <input
+              required
+              type="date"
+              min={new Date().toISOString().split("T")[0]}
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              className="field"
+            />
+          </label>
+          <button
+            type="submit"
+            className="mt-7 w-full rounded-xl bg-[#3157d5] px-4 py-3 text-sm font-extrabold text-white hover:bg-[#2645ae]"
+          >
+            Confirm borrow
+          </button>
+        </form>
+      </div>
+      {toast && <Toast {...toast} onClose={hideToast} />}
+    </div>
+  );
+}

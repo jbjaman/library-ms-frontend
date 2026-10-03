@@ -1,4 +1,41 @@
 import { useEffect, useState } from "react";
 import { FiAlertCircle, FiCheckCircle, FiInfo, FiX } from "react-icons/fi";
-type Props={message:string;type:"success"|"error"|"info";onClose:()=>void};
-export default function Toast({message,type,onClose}:Props){const [visible,setVisible]=useState(true);useEffect(()=>{const t=setTimeout(()=>{setVisible(false);onClose()},3200);return()=>clearTimeout(t)},[onClose]);if(!visible)return null;const meta={success:{icon:FiCheckCircle,cls:"border-[#bfe8d8] bg-[#f1fbf7] text-[#087f5b]"},error:{icon:FiAlertCircle,cls:"border-[#f0c8c8] bg-[#fff6f6] text-[#c73737]"},info:{icon:FiInfo,cls:"border-[#c9d5ff] bg-[#f3f6ff] text-[#3157d5]"}}[type];const Icon=meta.icon;return <div className={`fixed right-5 top-20 z-50 flex max-w-sm items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-semibold shadow-xl ${meta.cls}`}><Icon/><span className="flex-1">{message}</span><button onClick={onClose}><FiX/></button></div>}
+type Props = {
+  message: string;
+  type: "success" | "error" | "info";
+  onClose: () => void;
+};
+export default function Toast({ message, type, onClose }: Props) {
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setVisible(false);
+      onClose();
+    }, 3200);
+    return () => clearTimeout(t);
+  }, [onClose]);
+  if (!visible) return null;
+  const meta = {
+    success: {
+      icon: FiCheckCircle,
+      cls: "border-[#bfe8d8] bg-[#f1fbf7] text-[#087f5b]",
+    },
+    error: {
+      icon: FiAlertCircle,
+      cls: "border-[#f0c8c8] bg-[#fff6f6] text-[#c73737]",
+    },
+    info: { icon: FiInfo, cls: "border-[#c9d5ff] bg-[#f3f6ff] text-[#3157d5]" },
+  }[type];
+  const Icon = meta.icon;
+  return (
+    <div
+      className={`fixed right-5 top-20 z-50 flex max-w-sm items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-semibold shadow-xl ${meta.cls}`}
+    >
+      <Icon />
+      <span className="flex-1">{message}</span>
+      <button onClick={onClose}>
+        <FiX />
+      </button>
+    </div>
+  );
+}
