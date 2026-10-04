@@ -1,6 +1,6 @@
 # Minimal LMS
 
-- GitHub Repository frontend : https://github.com/jbjzeehad/library-ms-frontend
+- GitHub Repository frontend : https://github.com/jbjzeehad/Library-Management-System
 - GitHub Repository backend : https://github.com/jbjzeehad/library-ms-backend
 - Live Deployment frontend: https://minimallibrarymanagementsystem.vercel.app/
 - Live Deployment backend: https://librarymanagementsystem-eosin.vercel.app/
